@@ -49,8 +49,15 @@ export default function NeuroCoinLanding() {
         <title>NeuroCoin — AI-Powered Crypto Analytics</title>
         <meta
           name="description"
-          content="Next-gen crypto analytics powered by AI. Real-time signals, market trends, and sentiment — all in one Telegram bot."
+          content="Next-gen crypto analytics powered by AI. Real-time crypto signals, market trends, news sentiment analysis — all in one Telegram bot."
         />
+        <meta name="keywords" content="Crypto analytics, AI crypto, crypto signals, NeuroCoin, telegram bot crypto" />
+        <meta property="og:title" content="NeuroCoin — AI-Powered Crypto Analytics" />
+        <meta property="og:description" content="Next-gen crypto analytics powered by AI." />
+        <meta property="og:image" content="https://ncoin.cc/og-image.png" />
+        <meta property="og:url" content="https://ncoin.cc" />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href="https://ncoin.cc" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
