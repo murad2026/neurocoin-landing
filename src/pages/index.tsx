@@ -110,7 +110,7 @@ export default function NeuroCoinLanding() {
         <section id="login" className="text-center py-20">
           <h2 className="text-4xl font-bold mb-4">{t.readyTitle}</h2>
           <p className="text-gray-400 mb-6">{t.readySubtitle}</p>
-          <a href="https://web.telegram.org/a/#NeuroCoinAnalytics_bot" target="_blank" rel="noopener noreferrer">
+          <a href="https://t.me/NeuroCoinAnalytics_bot" target="_blank" rel="noopener noreferrer">
             <button className="text-lg px-6 py-3 rounded-2xl shadow-xl bg-green-500 hover:bg-green-600 text-white">
               {t.botButton}
             </button>
