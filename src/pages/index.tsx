@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Script from 'next/script';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
+import CryptoSignals from '@/components/CryptoSignals';
 
 interface Translation {
   title: string;
@@ -105,6 +106,10 @@ export default function NeuroCoinLanding() {
               </CardContent>
             </Card>
           ))}
+        </section>
+
+        <section className="text-center py-12">
+          <CryptoSignals />
         </section>
 
         <section id="login" className="text-center py-20">
