@@ -27,7 +27,7 @@ export default function CryptoSignals({ lang = 'en' }: Props) {
   const coins = ['BTC', 'ETH', 'DOGE'];
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/signals')
+    axios.get('https://neurocoin-backend.onrender.com/api/signals')
       .then(response => setSignals(response.data.signals))
       .catch(error => console.error('Error:', error));
   }, []);
