@@ -61,7 +61,7 @@ const AnalyticsTable = () => {
   useEffect(() => {
     const fetchAnalytics = async () => {
       try {
-        const response = await aaxios.get<AnalyticsItem[]>('https://neurocoin-ml-service.onrender.com/analytics');
+        const response = await axios.get<AnalyticsItem[]>('https://neurocoin-ml-service.onrender.com/analytics');
         setAnalytics(response.data);
       } catch (error) {
         console.error('Error fetching analytics:', error);
@@ -109,4 +109,5 @@ const AnalyticsTable = () => {
   );
 };
 
-export default AnalyticsTable;
+export default AnalyticsTable; 
+
