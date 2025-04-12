@@ -4,6 +4,7 @@ import Script from 'next/script';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import CryptoSignals from '@/components/CryptoSignals';
+import AnalyticsTable from '@/components/AnalyticsTable';
 
 interface Translation {
   title: string;
@@ -110,6 +111,10 @@ export default function NeuroCoinLanding() {
 
         <section className="text-center py-12">
           <CryptoSignals />
+        </section>
+
+        <section className="py-12">
+          <AnalyticsTable />
         </section>
 
         <section id="login" className="text-center py-20">
