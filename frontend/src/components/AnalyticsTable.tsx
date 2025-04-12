@@ -61,7 +61,7 @@ const AnalyticsTable = () => {
   useEffect(() => {
     const fetchAnalytics = async () => {
       try {
-        const response = await axios.get<AnalyticsItem[]>('http://localhost:8200/analytics');
+        const response = await axios.get<AnalyticsItem[]>('https://neurocoin-ml-service.onrender.com/analytics');
         setAnalytics(response.data);
       } catch (error) {
         console.error('Error fetching analytics:', error);
