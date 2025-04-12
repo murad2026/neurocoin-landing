@@ -2,7 +2,6 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import uuid
 from datetime import datetime
-import os  # обязательно добавить для получения переменной окружения PORT
 
 app = Flask(__name__)
 CORS(app)
@@ -12,6 +11,16 @@ analytics_db = []
 @app.route('/analytics', methods=['POST'])
 def add_analytics():
     data = request.json
+
+    required_fields = [
+        "entry_period", "recommended_amount", "predicted_accuracy",
+        "actual_accuracy", "trend", "safe_trade_window",
+        "user_confirmations", "total_confirmed_amount"
+    ]
+
+    if not all(field in data for field in required_fields):
+        return jsonify({"error": "Missing required fields"}), 400
+
     new_entry = {
         "id": str(uuid.uuid4()),
         "entry_period": data.get("entry_period"),
@@ -24,6 +33,7 @@ def add_analytics():
         "total_confirmed_amount": data.get("total_confirmed_amount"),
         "timestamp": datetime.utcnow().isoformat()
     }
+
     analytics_db.append(new_entry)
     return jsonify(new_entry), 201
 
@@ -39,4 +49,4 @@ def get_single_analytics(entry_id):
     return jsonify({"error": "Entry not found"}), 404
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 8200)), debug=True)
+    app.run(debug=True)
