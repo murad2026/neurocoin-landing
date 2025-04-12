@@ -52,9 +52,10 @@ for symbol in symbols:
         "total_confirmed_amount": 0
     }
 
-    response = requests.post('http://localhost:8200/analytics', json=data)
+    response = requests.post('https://neurocoin-ml-service.onrender.com/analytics', json=data)
 
     if response.status_code == 201:
         print(f"✅ {symbol}: Аналитика добавлена.")
     else:
         print(f"❌ {symbol}: Ошибка при отправке - {response.text}")
+        
