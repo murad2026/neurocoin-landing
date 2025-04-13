@@ -1,31 +1,18 @@
 import requests
 import pandas as pd
+import time
 
-def get_binance_data(symbol='BTCUSDT', interval='1h', limit=1000):
-    url = 'https://api.binance.com/api/v3/klines'
-    params = {'symbol': symbol, 'interval': interval, 'limit': limit}
-    response = requests.get(url, params=params)
-
-    if response.status_code != 200:
-        print("Ошибка запроса:", response.json())
-        return
-
-    data = response.json()
-    if not data:
-        print("Получен пустой ответ от Binance!")
-        return
-
-    df = pd.DataFrame(data, columns=[
-        'time', 'open', 'high', 'low', 'close', 'volume',
-        'close_time', 'quote_asset_volume', 'num_trades',
-        'taker_buy_volume', 'taker_buy_quote_volume', 'ignore'
-    ])
-
-    df['time'] = pd.to_datetime(df['time'], unit='ms')
-    df['close'] = df['close'].astype(float)
-    df = df[['time', 'close']]
-
-    df.to_csv(f'{symbol}_historical.csv', index=False)
-    print(f"Файл {symbol}_historical.csv создан, строк: {len(df)}")
-
-get_binance_data('BTCUSDT')
+def fetch_data(symbol):
+    url = f"https://min-api.cryptocompare.com/data/v2/histohour?fsym={symbol.replace('USDT', '')}&tsym=USDT&limit=2000"
+    try:
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+        data = response.json()
+        if data['Response'] != 'Success':
+            print(f"CryptoCompare API error: {data['Message']}")
+            return None
+        time.sleep(1)  # пауза для избежания лимитов
+        return pd.DataFrame(data['Data']['Data'])
+    except requests.RequestException as e:
+        print(f"Error fetching data from CryptoCompare: {e}")
+        return None

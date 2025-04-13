@@ -2,48 +2,25 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 interface AnalyticsItem {
-  id: string;
-  currency: string; // новая строка
-  entry_period: string | null;
-  recommended_amount: number | null;
-  predicted_accuracy: number | null;
-  actual_accuracy: number | null;
-  trend: string | null;
-  safe_trade_window: number | null;
-  user_confirmations: number | null;
-  total_confirmed_amount: number | null;
+  currency: string;
+  predicted_price: number;
+  recommended_investment: number;
+  trend: string;
+  entry_period: string;
+  predicted_accuracy: number;
+  safe_trade_window: number;
 }
 
 const translations = {
   en: {
     title: 'NeuroCoin Analytics',
     loading: 'Loading analytics...',
-    headers: [
-      'Currency', // новый столбец
-      'Entry Period',
-      'Trade Amount ($)',
-      'Predicted Accuracy (%)',
-      'Actual Accuracy (%)',
-      'Trend',
-      'Safe Trade Window ($)',
-      'Confirmations',
-      'Confirmed Amount ($)',
-    ],
+    headers: ['Currency', 'Entry Period', 'Predicted Price ($)', 'Recommended Investment ($)', 'Trend', 'Predicted Accuracy (%)', 'Safe Trade Window ($)'],
   },
   es: {
     title: 'Analítica de NeuroCoin',
     loading: 'Cargando analítica...',
-    headers: [
-      'Moneda', // новый столбец
-      'Periodo de entrada',
-      'Monto de operación ($)',
-      'Precisión prevista (%)',
-      'Precisión real (%)',
-      'Tendencia',
-      'Ventana segura ($)',
-      'Confirmaciones',
-      'Monto confirmado ($)',
-    ],
+    headers: ['Moneda', 'Período de entrada', 'Precio Predicho ($)', 'Inversión Recomendada ($)', 'Tendencia', 'Precisión Pronosticada (%)', 'Ventana Segura ($)'],
   },
 };
 
@@ -63,14 +40,28 @@ const AnalyticsTable = () => {
 
   useEffect(() => {
     const fetchAnalytics = async () => {
-      try {
-        const response = await axios.get<AnalyticsItem[]>('https://neurocoin-ml-service.onrender.com/analytics');
-        setAnalytics(response.data);
-      } catch (error) {
-        console.error('Error fetching analytics:', error);
-      } finally {
-        setLoading(false);
+      const symbols = ['BTCUSDT', 'ETHUSDT', 'LTCUSDT'];
+      const results: AnalyticsItem[] = [];
+
+      for (const symbol of symbols) {
+        try {
+          const { data } = await axios.get(`http://localhost:8103/predict/${symbol}`);
+          results.push({
+            currency: symbol.replace('USDT', ''),
+            entry_period: data.entry_period,
+            predicted_price: data.predicted_price,
+            recommended_investment: data.recommended_investment,
+            trend: data.trend,
+            predicted_accuracy: data.predicted_accuracy,
+            safe_trade_window: data.safe_trade_window,
+          });
+        } catch (error) {
+          console.error('Error fetching analytics:', error);
+        }
       }
+
+      setAnalytics(results);
+      setLoading(false);
     };
 
     fetchAnalytics();
@@ -82,38 +73,32 @@ const AnalyticsTable = () => {
 
   return (
     <div className="overflow-x-auto">
-  <table className="min-w-full bg-gray-800 text-white rounded shadow-xl overflow-hidden">
-    <thead className="bg-gray-700">
-      <tr>
-        {t.headers.map((header, index) => (
-          <th key={index} className="py-2 px-4 border-b whitespace-nowrap">
-            {header}
-          </th>
-        ))}
-      </tr>
-    </thead>
-    <tbody>
-  {analytics.map((item) => (
-    <tr key={item.id} className="hover:bg-gray-600">
-      <td className="py-2 px-4 border-b">{item.currency}</td> {/* новый столбец */}
-      <td className="py-2 px-4 border-b">{item.entry_period || '–'}</td>
-      <td className="py-2 px-4 border-b">{item.recommended_amount ?? '–'}</td>
-      <td className="py-2 px-4 border-b">
-        {item.predicted_accuracy !== null ? `${item.predicted_accuracy}%` : '–'}
-      </td>
-      <td className="py-2 px-4 border-b">
-        {item.actual_accuracy !== null ? `${item.actual_accuracy}%` : '–'}
-      </td>
-      <td className="py-2 px-4 border-b">{item.trend || '–'}</td>
-      <td className="py-2 px-4 border-b">{item.safe_trade_window ?? '–'}</td>
-      <td className="py-2 px-4 border-b">{item.user_confirmations ?? '–'}</td>
-      <td className="py-2 px-4 border-b">{item.total_confirmed_amount ?? '–'}</td>
-    </tr>
-  ))}
-</tbody>
-  </table>
-</div>
+      <table className="min-w-full bg-gray-800 text-white rounded shadow-xl overflow-hidden">
+        <thead className="bg-gray-700">
+          <tr>
+            {t.headers.map((header, index) => (
+              <th key={index} className="py-2 px-4 border-b whitespace-nowrap">
+                {header}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {analytics.map((item, index) => (
+            <tr key={index} className="hover:bg-gray-600">
+              <td className="py-2 px-4 border-b">{item.currency}</td>
+              <td className="py-2 px-4 border-b">{item.entry_period}</td>
+              <td className="py-2 px-4 border-b">${item.predicted_price.toFixed(2)}</td>
+              <td className="py-2 px-4 border-b">${item.recommended_investment}</td>
+              <td className="py-2 px-4 border-b">{item.trend}</td>
+              <td className="py-2 px-4 border-b">{item.predicted_accuracy}%</td>
+              <td className="py-2 px-4 border-b">${item.safe_trade_window}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
-}
+};
 
 export default AnalyticsTable;

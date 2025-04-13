@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import CryptoSignals from '@/components/CryptoSignals';
 import AnalyticsTable from '@/components/AnalyticsTable';
+import OptimalTradeWindow from '@/components/OptimalTradeWindow';
 
 interface Translation {
   title: string;
@@ -115,6 +116,10 @@ export default function NeuroCoinLanding() {
 
         <section className="py-12">
           <AnalyticsTable />
+        </section>
+
+        <section className="py-12">
+          <OptimalTradeWindow symbol="BTCUSDT" />
         </section>
 
         <section id="login" className="text-center py-20">
