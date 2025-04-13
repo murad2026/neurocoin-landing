@@ -3,14 +3,14 @@ import axios from 'axios';
 
 interface AnalyticsItem {
   id: string;
-  entry_period: string;
-  recommended_amount: number;
-  predicted_accuracy: number;
-  actual_accuracy: number;
-  trend: string;
-  safe_trade_window: number;
-  user_confirmations: number;
-  total_confirmed_amount: number;
+  entry_period: string | null;
+  recommended_amount: number | null;
+  predicted_accuracy: number | null;
+  actual_accuracy: number | null;
+  trend: string | null;
+  safe_trade_window: number | null;
+  user_confirmations: number | null;
+  total_confirmed_amount: number | null;
 }
 
 const translations = {
@@ -93,14 +93,18 @@ const AnalyticsTable = () => {
         <tbody>
           {analytics.map((item) => (
             <tr key={item.id} className="hover:bg-gray-600">
-              <td className="py-2 px-4 border-b">{item.entry_period}</td>
-              <td className="py-2 px-4 border-b">{item.recommended_amount}</td>
-              <td className="py-2 px-4 border-b">{item.predicted_accuracy}%</td>
-              <td className="py-2 px-4 border-b">{item.actual_accuracy}%</td>
-              <td className="py-2 px-4 border-b">{item.trend}</td>
-              <td className="py-2 px-4 border-b">{item.safe_trade_window}</td>
-              <td className="py-2 px-4 border-b">{item.user_confirmations}</td>
-              <td className="py-2 px-4 border-b">{item.total_confirmed_amount}</td>
+              <td className="py-2 px-4 border-b">{item.entry_period || '–'}</td>
+              <td className="py-2 px-4 border-b">{item.recommended_amount ?? '–'}</td>
+              <td className="py-2 px-4 border-b">
+                {item.predicted_accuracy !== null ? `${item.predicted_accuracy}%` : '–'}
+              </td>
+              <td className="py-2 px-4 border-b">
+                {item.actual_accuracy !== null ? `${item.actual_accuracy}%` : '–'}
+              </td>
+              <td className="py-2 px-4 border-b">{item.trend || '–'}</td>
+              <td className="py-2 px-4 border-b">{item.safe_trade_window ?? '–'}</td>
+              <td className="py-2 px-4 border-b">{item.user_confirmations ?? '–'}</td>
+              <td className="py-2 px-4 border-b">{item.total_confirmed_amount ?? '–'}</td>
             </tr>
           ))}
         </tbody>
@@ -109,5 +113,4 @@ const AnalyticsTable = () => {
   );
 };
 
-export default AnalyticsTable; 
-
+export default AnalyticsTable;
