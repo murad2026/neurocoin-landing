@@ -3,6 +3,7 @@ import axios from 'axios';
 
 interface AnalyticsItem {
   id: string;
+  currency: string; // новая строка
   entry_period: string | null;
   recommended_amount: number | null;
   predicted_accuracy: number | null;
@@ -18,6 +19,7 @@ const translations = {
     title: 'NeuroCoin Analytics',
     loading: 'Loading analytics...',
     headers: [
+      'Currency', // новый столбец
       'Entry Period',
       'Trade Amount ($)',
       'Predicted Accuracy (%)',
@@ -32,6 +34,7 @@ const translations = {
     title: 'Analítica de NeuroCoin',
     loading: 'Cargando analítica...',
     headers: [
+      'Moneda', // новый столбец
       'Periodo de entrada',
       'Monto de operación ($)',
       'Precisión prevista (%)',
@@ -90,23 +93,24 @@ const AnalyticsTable = () => {
       </tr>
     </thead>
     <tbody>
-      {analytics.map((item) => (
-        <tr key={item.id} className="hover:bg-gray-600">
-          <td className="py-2 px-4 border-b whitespace-nowrap">{item.entry_period || '–'}</td>
-          <td className="py-2 px-4 border-b whitespace-nowrap">{item.recommended_amount ?? '–'}</td>
-          <td className="py-2 px-4 border-b whitespace-nowrap">
-            {item.predicted_accuracy !== null ? `${item.predicted_accuracy}%` : '–'}
-          </td>
-          <td className="py-2 px-4 border-b whitespace-nowrap">
-            {item.actual_accuracy !== null ? `${item.actual_accuracy}%` : '–'}
-          </td>
-          <td className="py-2 px-4 border-b whitespace-nowrap">{item.trend || '–'}</td>
-          <td className="py-2 px-4 border-b whitespace-nowrap">{item.safe_trade_window ?? '–'}</td>
-          <td className="py-2 px-4 border-b whitespace-nowrap">{item.user_confirmations ?? '–'}</td>
-          <td className="py-2 px-4 border-b whitespace-nowrap">{item.total_confirmed_amount ?? '–'}</td>
-        </tr>
-      ))}
-    </tbody>
+  {analytics.map((item) => (
+    <tr key={item.id} className="hover:bg-gray-600">
+      <td className="py-2 px-4 border-b">{item.currency}</td> {/* новый столбец */}
+      <td className="py-2 px-4 border-b">{item.entry_period || '–'}</td>
+      <td className="py-2 px-4 border-b">{item.recommended_amount ?? '–'}</td>
+      <td className="py-2 px-4 border-b">
+        {item.predicted_accuracy !== null ? `${item.predicted_accuracy}%` : '–'}
+      </td>
+      <td className="py-2 px-4 border-b">
+        {item.actual_accuracy !== null ? `${item.actual_accuracy}%` : '–'}
+      </td>
+      <td className="py-2 px-4 border-b">{item.trend || '–'}</td>
+      <td className="py-2 px-4 border-b">{item.safe_trade_window ?? '–'}</td>
+      <td className="py-2 px-4 border-b">{item.user_confirmations ?? '–'}</td>
+      <td className="py-2 px-4 border-b">{item.total_confirmed_amount ?? '–'}</td>
+    </tr>
+  ))}
+</tbody>
   </table>
 </div>
   );

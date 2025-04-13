@@ -21,18 +21,19 @@ def add_analytics():
     if not all(field in data for field in required_fields):
         return jsonify({"error": "Missing required fields"}), 400
 
-    new_entry = {
-        "id": str(uuid.uuid4()),
-        "entry_period": data.get("entry_period"),
-        "recommended_amount": data.get("recommended_amount"),
-        "predicted_accuracy": data.get("predicted_accuracy"),
-        "actual_accuracy": data.get("actual_accuracy"),
-        "trend": data.get("trend"),
-        "safe_trade_window": data.get("safe_trade_window"),
-        "user_confirmations": data.get("user_confirmations"),
-        "total_confirmed_amount": data.get("total_confirmed_amount"),
-        "timestamp": datetime.utcnow().isoformat()
-    }
+   new_entry = {
+    "id": str(uuid.uuid4()),
+    "currency": data.get("currency"),
+    "entry_period": data.get("entry_period"),
+    "recommended_amount": data.get("recommended_amount"),
+    "predicted_accuracy": data.get("predicted_accuracy"),
+    "actual_accuracy": data.get("actual_accuracy"),
+    "trend": data.get("trend"),
+    "safe_trade_window": data.get("safe_trade_window"),
+    "user_confirmations": data.get("user_confirmations"),
+    "total_confirmed_amount": data.get("total_confirmed_amount"),
+    "timestamp": datetime.utcnow().isoformat()
+}
 
     analytics_db.append(new_entry)
     return jsonify(new_entry), 201
