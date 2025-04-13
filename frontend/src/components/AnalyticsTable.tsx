@@ -78,39 +78,38 @@ const AnalyticsTable = () => {
   }
 
   return (
-    <div className="p-4">
-      <h2 className="text-xl font-bold mb-4 text-white">{t.title}</h2>
-      <table className="min-w-full bg-gray-800 text-white rounded shadow-xl overflow-hidden">
-        <thead className="bg-gray-700">
-          <tr>
-            {t.headers.map((header, index) => (
-              <th key={index} className="py-2 px-4 border-b">
-                {header}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {analytics.map((item) => (
-            <tr key={item.id} className="hover:bg-gray-600">
-              <td className="py-2 px-4 border-b">{item.entry_period || '–'}</td>
-              <td className="py-2 px-4 border-b">{item.recommended_amount ?? '–'}</td>
-              <td className="py-2 px-4 border-b">
-                {item.predicted_accuracy !== null ? `${item.predicted_accuracy}%` : '–'}
-              </td>
-              <td className="py-2 px-4 border-b">
-                {item.actual_accuracy !== null ? `${item.actual_accuracy}%` : '–'}
-              </td>
-              <td className="py-2 px-4 border-b">{item.trend || '–'}</td>
-              <td className="py-2 px-4 border-b">{item.safe_trade_window ?? '–'}</td>
-              <td className="py-2 px-4 border-b">{item.user_confirmations ?? '–'}</td>
-              <td className="py-2 px-4 border-b">{item.total_confirmed_amount ?? '–'}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <div className="overflow-x-auto">
+  <table className="min-w-full bg-gray-800 text-white rounded shadow-xl overflow-hidden">
+    <thead className="bg-gray-700">
+      <tr>
+        {t.headers.map((header, index) => (
+          <th key={index} className="py-2 px-4 border-b whitespace-nowrap">
+            {header}
+          </th>
+        ))}
+      </tr>
+    </thead>
+    <tbody>
+      {analytics.map((item) => (
+        <tr key={item.id} className="hover:bg-gray-600">
+          <td className="py-2 px-4 border-b whitespace-nowrap">{item.entry_period || '–'}</td>
+          <td className="py-2 px-4 border-b whitespace-nowrap">{item.recommended_amount ?? '–'}</td>
+          <td className="py-2 px-4 border-b whitespace-nowrap">
+            {item.predicted_accuracy !== null ? `${item.predicted_accuracy}%` : '–'}
+          </td>
+          <td className="py-2 px-4 border-b whitespace-nowrap">
+            {item.actual_accuracy !== null ? `${item.actual_accuracy}%` : '–'}
+          </td>
+          <td className="py-2 px-4 border-b whitespace-nowrap">{item.trend || '–'}</td>
+          <td className="py-2 px-4 border-b whitespace-nowrap">{item.safe_trade_window ?? '–'}</td>
+          <td className="py-2 px-4 border-b whitespace-nowrap">{item.user_confirmations ?? '–'}</td>
+          <td className="py-2 px-4 border-b whitespace-nowrap">{item.total_confirmed_amount ?? '–'}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
   );
-};
+}
 
 export default AnalyticsTable;
